@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { FaPaperPlane } from "react-icons/fa";
+import { IoSend } from "react-icons/io5";
 import axios from "axios";
 import ReactMarkdown from "react-markdown";
 import "tailwindcss/tailwind.css";
@@ -8,7 +9,7 @@ import "./App.css";
 function ChatBot() {
   const Api = import.meta.env.VITE_GEMINI_API_KEY;
   const [messages, setMessages] = useState([]);
-  const [input, setInput] = useState("what is ai");
+  const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleSendMessage = async () => {
@@ -33,8 +34,9 @@ function ChatBot() {
             ],
           }
         );
-        console.log(response);
         const botResponse = response.data.candidates[0].content.parts[0].text;
+        console.log(botResponse);
+
         setLoading(false);
         setMessages([...newMessages, { text: botResponse, user: false }]);
       } catch (error) {
@@ -49,12 +51,12 @@ function ChatBot() {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center h-screen bg-gradient-to-r from-green-400 to-blue-500">
+    <div className="flex flex-col justify-around items-center h-screen bg-gradient-to-r from-green-400 to-blue-500">
       <h1 className="mb-8 font-bold text-[3rem] drop-shadow-lg text-blue-50">
         AI ChatBot
       </h1>
-      <div className="bg-white w-full max-w-lg shadow-lg rounded-lg overflow-hidden">
-        <div className="p-4 h-96 overflow-y-auto">
+      <div className="bg-white w-full max-w-lg md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl shadow-lg rounded-lg h-full my-10 overflow-hidden relative ">
+        <div className="p-4 h-full overflow-y-auto pb-32 thin-scroll">
           {messages.map((msg, index) => (
             <div
               key={index}
@@ -83,7 +85,7 @@ function ChatBot() {
             </div>
           )}
         </div>
-        <div className="p-4 border-t border-gray-200 flex">
+        <div className="p-4  flex absolute bottom-0 right-0 left-0">
           <input
             type="text"
             className="flex-1 p-2 border border-gray-300 rounded-lg outline-none"
@@ -93,10 +95,10 @@ function ChatBot() {
             onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
           />
           <button
-            className="ml-2 bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 transition-all"
+            className="ml-2 bg-blue-500 text-white p-4 rounded-lg hover:bg-blue-600 transition-all"
             onClick={handleSendMessage}
           >
-            <FaPaperPlane />
+            <IoSend />
           </button>
         </div>
       </div>

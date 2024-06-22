@@ -10,7 +10,9 @@
   height: 40vmin;
   pointer-events: none;
 }
-
+.thin-scroll{
+  scrollbar-width: thin;
+}
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
